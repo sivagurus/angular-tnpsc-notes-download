@@ -1,0 +1,7 @@
+<mat-form-field class="example-full-width" style="width:100%">
+  <mat-label>Thumbnail URL</mat-label>
+  <input matInput placeholder="URL" [(ngModel)]="url" (ngModelChange)="onChange()" appearance="fill" #input>
+</mat-form-field>
+<div class="result" *ngIf="result" (click)="copyToClipboard(result)">
+  {{result}}
+</div>

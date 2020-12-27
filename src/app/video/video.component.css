@@ -1,0 +1,12 @@
+.result{
+  margin-top:50px;
+  padding: 20px;
+  font-size: 22px;
+  cursor: pointer;
+  background: green;
+  color: white;
+}
+
+.pointer{
+  cursor: pointer;
+}
