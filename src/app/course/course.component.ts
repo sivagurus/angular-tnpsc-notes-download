@@ -75,7 +75,15 @@ export class CourseComponent implements OnInit {
     const ul = this.renderer.createElement('ul');
     data.forEach((item) => {
       let li = this.renderer.createElement('li');
-      this.renderer.setAttribute(li, 'data-contentType', (item.contentType == 1)? 'folder': 'video');
+      let type = '';
+        if(item.contentType == 1){
+          type = "folder";
+        } else if(item.contentType == 2){
+          type = "video";
+        } else{
+          type = "others"
+        }
+      this.renderer.setAttribute(li, 'data-contentType', type);
       this.renderer.setAttribute(li, 'data-courseId', id);
       this.renderer.setAttribute(li, 'data-folderId', item.id);
       this.renderer.addClass(li,"closed");
@@ -85,7 +93,7 @@ export class CourseComponent implements OnInit {
         this.renderer.addClass(li, "opened");
         let newLi = this.elementRef.nativeElement.querySelector(`li[data-courseId="${id}"][data-folderId="${item.id}"]`);
         let loaded = newLi.getAttribute('data-loaded');
-        if( loaded == 'true' ){
+        if( loaded == 'true' || type != "folder"){
           return
         }
         this.addSubContents(li, id, item.id);
@@ -159,5 +167,5 @@ export class CourseComponent implements OnInit {
     });
   }
 
-
+  
 }
