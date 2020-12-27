@@ -14,8 +14,19 @@ import { VideoComponent } from './video/video.component';
 import { CourseComponent } from './course/course.component';
 
 const routes: Routes = [
-  { path: '', component: VideoComponent },
-  { path: 'course', component: CourseComponent },
+  {
+    path: "",
+    redirectTo: "video",
+    pathMatch: "full"
+  },
+  { 
+    path: 'video', 
+    component: VideoComponent,
+  },
+  { 
+    path: 'course', 
+    component: CourseComponent 
+  },
 ];
 
 @NgModule({
