@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { VideoComponent } from './video/video.component';
 import { CourseComponent } from './course/course.component';
+import { ApiService } from './course/api.service';
 
 const routes: Routes = [
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
     VideoComponent,
     CourseComponent
   ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
+  providers: [ApiService]
 })
 export class AppModule { }
