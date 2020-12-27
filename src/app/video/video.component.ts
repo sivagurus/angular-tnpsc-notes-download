@@ -2,7 +2,7 @@ import { Component, ElementRef, Renderer, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'video',
+  selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: [ './video.component.css' ]
 })
