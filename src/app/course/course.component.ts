@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer, Renderer2, ViewChild } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import * as _ from "lodash";
 import { HttpClient } from '@angular/common/http';
 import * as storeQuery from './storeQuery.json';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-course',
@@ -21,8 +22,9 @@ export class CourseComponent implements OnInit {
     private  apiService: ApiService,
     private http: HttpClient,
     private cdRef: ChangeDetectorRef,
-     private renderer: Renderer2,
-     private elementRef: ElementRef
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private _snackBar: MatSnackBar,
   ) {
     
   }
@@ -79,9 +81,13 @@ export class CourseComponent implements OnInit {
       this.renderer.addClass(li,"closed");
       this.renderer.appendChild(li, document.createTextNode(item.name));
       this.renderer.listen(li, "click", (event) => {
-        console.log(id, item.id);
         this.renderer.removeClass(li, "closed");
         this.renderer.addClass(li, "opened");
+        let newLi = this.elementRef.nativeElement.querySelector(`li[data-courseId="${id}"][data-folderId="${item.id}"]`);
+        let loaded = newLi.getAttribute('data-loaded');
+        if( loaded == 'true' ){
+          return
+        }
         this.addSubContents(li, id, item.id);
       });
       this.renderer.appendChild(ul, li);
@@ -101,7 +107,14 @@ export class CourseComponent implements OnInit {
       const ul = this.renderer.createElement('ul');
       data.forEach((item) => {
         let li = this.renderer.createElement('li');
-        let type = (item.contentType == 1)? 'folder': 'video';
+        let type = '';
+        if(item.contentType == 1){
+          type = "folder";
+        } else if(item.contentType == 2){
+          type = "video";
+        } else{
+          type = "others"
+        }
         this.renderer.setAttribute(li, 'data-contentType', type);
         this.renderer.setAttribute(li, 'data-courseId', courseId);
         if( type == "folder" ){
@@ -114,13 +127,35 @@ export class CourseComponent implements OnInit {
           this.renderer.removeClass(li, "closed");
           this.renderer.addClass(li, "opened");
           if( type == "folder" ){
+            let newLi = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-folderId="${item.id}"]`);
+            let loaded = newLi.getAttribute('data-loaded');
+            if( loaded == 'true' ){
+              return
+            }
             this.addSubContents(li, courseId, item.id);
+          } else if( type == "video"){
+            this.copyToClipboard(item.thumbnailUrl);
           }
         });
         this.renderer.appendChild(ul, li);
       });
       this.renderer.appendChild(element, ul);
       this.cdRef.detectChanges()
+    });
+  }
+
+  copyToClipboard(item) {
+    item = item.replace("thumbs","manifests")
+    .replace(/(-\d*.*)/g,".m3u8");
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this._snackBar.open("Link Copied", '', {
+      duration: 200,
+      verticalPosition: "top"
     });
   }
 

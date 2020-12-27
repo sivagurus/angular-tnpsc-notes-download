@@ -47,3 +47,15 @@
   color: white;
   padding: 10px;
 }
+
+.courseList li[data-contenttype="folder"]{
+  background: orange;
+  color: black;
+  padding: 10px;
+}
+
+.courseList li[data-contenttype="others"]{
+  background: #f44336;
+  color: white;
+  padding: 10px;
+}
