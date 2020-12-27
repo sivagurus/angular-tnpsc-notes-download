@@ -1,3 +1,10 @@
-<p>
-course works!
-</p>
+<mat-form-field class="example-full-width" style="width:100%">
+  <mat-label>Token</mat-label>
+  <input matInput placeholder="URL" [(ngModel)]="token" (ngModelChange)="onChange()" appearance="fill" #input>
+</mat-form-field>
+<mat-tree>
+  <mat-tree-node *ngFor="let course of courses"reeNodePadding>
+    <button mat-icon-button disabled></button>
+    {{course.deeplink.paramTwo}}
+  </mat-tree-node>
+</mat-tree>

@@ -11,11 +11,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { RouterModule, Routes } from '@angular/router';
 import { VideoComponent } from './video/video.component';
 import { CourseComponent } from './course/course.component';
 import { ApiService } from './course/api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -44,6 +46,8 @@ const routes: Routes = [
     MatToolbarModule,
     MatIconModule,
     MatTreeModule,
+    MatProgressBarModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [ 

@@ -11,6 +11,7 @@ import * as _ from "lodash";
 })
 export class CourseComponent implements OnInit {
 
+  token = "";
   courses: any[] = [];
 
   constructor(
@@ -18,10 +19,11 @@ export class CourseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getStore();
   }
 
   getStore(){
-    this.apiService.getStore().pipe(
+    this.apiService.getStore(this.token).pipe(
       catchError((error) => {
         return throwError(error)
       })
