@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
@@ -15,10 +15,14 @@ export class CourseComponent implements OnInit {
 
   token = "";
   courses: any[] = [];
+  @ViewChild('courseList', {static: false}) courseList:ElementRef;
 
   constructor(
     private  apiService: ApiService,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef,
+     private renderer: Renderer2,
+     private elementRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -32,8 +36,16 @@ export class CourseComponent implements OnInit {
         return throwError(error)
       })
     ).subscribe((res: any) => {
-      this.courses = res.items;
+      this.courses = res.data.items;
+      this.cdRef.detectChanges()
     });
+  }
+
+  onCourseClick(course: any){
+    let id = course.deeplink.paramOne;
+    let element = this.courseList.nativeElement.querySelector(`[data-id="${id}"]`);
+    this.renderer.removeClass(element, "closed");
+    this.renderer.addClass(element, "opened");
   }
 
 }

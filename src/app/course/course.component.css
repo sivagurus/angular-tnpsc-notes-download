@@ -1,0 +1,36 @@
+.courseList{
+  list-style: none;
+  margin: 50px 0 0 20px;
+  padding: 0;
+}
+
+.courseList li{
+  margin: 20px 10px;
+  cursor: pointer;
+}
+
+.courseList li.closed::before{
+  position: relative;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-right: 0.2em solid black;
+  border-top: 0.2em solid black;
+  margin-right: 1.5em;
+  margin-left: 1.0em;
+  transform: rotate(45deg);
+}
+
+.courseList li.opened::before{
+  position: relative;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-right: 0.2em solid black;
+  border-top: 0.2em solid black;
+  margin-right: 1.5em;
+  margin-left: 1.0em;
+  transform: rotate(135deg);
+}

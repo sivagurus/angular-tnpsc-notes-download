@@ -29,7 +29,7 @@ export class ApiService {
     return this.http.post(API +'/cams/graph-api',data, options);
   }
 
-  getStore1(){
+  getCourseContent(){
     let paramsData = {
       'cacheKey': 'course_listing_filter_cache'
     }
