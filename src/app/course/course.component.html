@@ -3,5 +3,5 @@
   <input matInput placeholder="URL" [(ngModel)]="token" (ngModelChange)="onChange()" appearance="fill" #input>
 </mat-form-field> -->
 <ul class="courseList" #courseList>
-  <li *ngFor="let course of courses" class="closed" (click)="onCourseClick(course)" [attr.data-id]="course.deeplink.paramOne">{{ course.deeplink.paramTwo }}</li>
+  <li *ngFor="let course of courses" class="closed" (click)="onCourseClick(course)" [attr.data-contenttype]="'folder'" [attr.data-id]="course.deeplink.paramOne">{{ course.deeplink.paramTwo }}</li>
 </ul>

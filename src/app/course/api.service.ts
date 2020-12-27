@@ -58,7 +58,7 @@ export class ApiService {
     }
     httpHeaders = httpHeaders.set('Content-Type', 'application/json')
     .set('x-access-token',environment.token);
-    return this.http.get(API +'/course/content/get', {
+    return this.http.get(API +'/v2/course/content/get', {
       headers: httpHeaders,
       params: params
     });

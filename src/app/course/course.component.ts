@@ -23,7 +23,9 @@ export class CourseComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
      private renderer: Renderer2,
      private elementRef: ElementRef
-  ) { }
+  ) {
+    
+  }
 
   ngOnInit() {
     this.getStore();
@@ -71,15 +73,55 @@ export class CourseComponent implements OnInit {
     const ul = this.renderer.createElement('ul');
     data.forEach((item) => {
       let li = this.renderer.createElement('li');
-      this.renderer.setAttribute(li, 'data-id', item.id);
+      this.renderer.setAttribute(li, 'data-contentType', (item.contentType == 1)? 'folder': 'video');
+      this.renderer.setAttribute(li, 'data-courseId', id);
+      this.renderer.setAttribute(li, 'data-folderId', item.id);
       this.renderer.addClass(li,"closed");
       this.renderer.appendChild(li, document.createTextNode(item.name));
       this.renderer.listen(li, "click", (event) => {
-       
+        console.log(id, item.id);
+        this.renderer.removeClass(li, "closed");
+        this.renderer.addClass(li, "opened");
+        this.addSubContents(li, id, item.id);
       });
       this.renderer.appendChild(ul, li);
     });
     this.renderer.appendChild(element, ul);
+  }
+
+  addSubContents(li, courseId, folderId){
+    this.apiService.getCourseContentSub(courseId, folderId).pipe(
+      catchError((error) => {
+        return throwError(error)
+      })
+    ).subscribe((res: any) => {
+      let data = res.data.courseContent;
+      let element = li;
+      this.renderer.setAttribute(element, "data-loaded", "true");
+      const ul = this.renderer.createElement('ul');
+      data.forEach((item) => {
+        let li = this.renderer.createElement('li');
+        let type = (item.contentType == 1)? 'folder': 'video';
+        this.renderer.setAttribute(li, 'data-contentType', type);
+        this.renderer.setAttribute(li, 'data-courseId', courseId);
+        if( type == "folder" ){
+          this.renderer.setAttribute(li, 'data-folderId', item.id);
+        }
+        this.renderer.addClass(li,"closed");
+        this.renderer.appendChild(li, document.createTextNode(item.name));
+        this.renderer.listen(li, "click", (event) => {
+          event.stopImmediatePropagation();
+          this.renderer.removeClass(li, "closed");
+          this.renderer.addClass(li, "opened");
+          if( type == "folder" ){
+            this.addSubContents(li, courseId, item.id);
+          }
+        });
+        this.renderer.appendChild(ul, li);
+      });
+      this.renderer.appendChild(element, ul);
+      this.cdRef.detectChanges()
+    });
   }
 
 
