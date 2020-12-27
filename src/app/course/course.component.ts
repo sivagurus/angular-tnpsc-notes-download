@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import { HttpClient } from '@angular/common/http';
 import * as storeQuery from './storeQuery.json';
 import { MatSnackBar } from '@angular/material/snack-bar';
+declare var $: any;
 
 @Component({
   selector: 'app-course',
@@ -31,6 +32,9 @@ export class CourseComponent implements OnInit {
 
   ngOnInit() {
     this.getStore();
+    $(document).on("click",'li',function(){
+      console.log("jquery");
+    });
   }
 
   getStore(){
