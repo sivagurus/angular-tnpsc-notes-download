@@ -46,6 +46,41 @@ export class CourseComponent implements OnInit {
     let element = this.courseList.nativeElement.querySelector(`[data-id="${id}"]`);
     this.renderer.removeClass(element, "closed");
     this.renderer.addClass(element, "opened");
+    this.getCourseContent(id);
   }
+
+  getCourseContent(id){
+    this.apiService.getCourseContent(id).pipe(
+      catchError((error) => {
+        return throwError(error)
+      })
+    ).subscribe((res: any) => {
+      let data = res.data.courseContent;
+      this.addCourseContent(id, data);
+      this.cdRef.detectChanges()
+    });
+  }
+
+  addCourseContent(id, data: any[]){
+    let element = this.courseList.nativeElement.querySelector(`[data-id="${id}"]`);
+    let loaded = element.getAttribute('data-loaded');
+    if( loaded == 'true' ){
+      return
+    }
+    this.renderer.setAttribute(element, "data-loaded", "true");
+    const ul = this.renderer.createElement('ul');
+    data.forEach((item) => {
+      let li = this.renderer.createElement('li');
+      this.renderer.setAttribute(li, 'data-id', item.id);
+      this.renderer.addClass(li,"closed");
+      this.renderer.appendChild(li, document.createTextNode(item.name));
+      this.renderer.listen(li, "click", (event) => {
+       
+      });
+      this.renderer.appendChild(ul, li);
+    });
+    this.renderer.appendChild(element, ul);
+  }
+
 
 }

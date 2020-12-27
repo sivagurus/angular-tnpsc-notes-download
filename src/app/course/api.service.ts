@@ -29,17 +29,36 @@ export class ApiService {
     return this.http.post(API +'/cams/graph-api',data, options);
   }
 
-  getCourseContent(){
+  getCourseContent(id){
     let paramsData = {
-      'cacheKey': 'course_listing_filter_cache'
+      'courseId': id
     }
     let httpHeaders = new HttpHeaders();
     let params = new HttpParams();
     for (let param in paramsData) {
       params = params.set(param, paramsData[param].toString());
     }
-    httpHeaders = httpHeaders.set('Content-Type', 'application/json');
-    return this.http.get(API +'/cams/graph-api', {
+    httpHeaders = httpHeaders.set('Content-Type', 'application/json')
+    .set('x-access-token',environment.token);
+    return this.http.get(API +'/v2/course/content/get', {
+      headers: httpHeaders,
+      params: params
+    });
+  }
+
+  getCourseContentSub(courseId, folderId){
+    let paramsData = {
+      'courseId': courseId,
+      'folderId': folderId
+    }
+    let httpHeaders = new HttpHeaders();
+    let params = new HttpParams();
+    for (let param in paramsData) {
+      params = params.set(param, paramsData[param].toString());
+    }
+    httpHeaders = httpHeaders.set('Content-Type', 'application/json')
+    .set('x-access-token',environment.token);
+    return this.http.get(API +'/course/content/get', {
       headers: httpHeaders,
       params: params
     });
