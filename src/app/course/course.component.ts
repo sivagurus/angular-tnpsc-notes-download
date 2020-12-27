@@ -3,6 +3,8 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import * as _ from "lodash";
+import { HttpClient } from '@angular/common/http';
+import * as storeQuery from './storeQuery.json';
 
 @Component({
   selector: 'app-course',
@@ -15,7 +17,8 @@ export class CourseComponent implements OnInit {
   courses: any[] = [];
 
   constructor(
-    private  apiService: ApiService
+    private  apiService: ApiService,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -23,7 +26,8 @@ export class CourseComponent implements OnInit {
   }
 
   getStore(){
-    this.apiService.getStore(this.token).pipe(
+    let query = storeQuery;
+    this.apiService.getStore(query).pipe(
       catchError((error) => {
         return throwError(error)
       })
