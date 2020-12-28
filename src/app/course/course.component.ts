@@ -146,7 +146,7 @@ export class CourseComponent implements OnInit {
             }
             this.addSubContents(li, courseId, item.id);
           } else if( type == "video"){
-            this.copyToClipboard((item.url)? item.url : item.thumbnailUrl);
+            this.copyToClipboard(item.url, item.name);
           }
         });
         this.renderer.appendChild(ul, li);
@@ -156,11 +156,10 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  copyToClipboard(item) {
-    item = item.replace("thumbs","manifests")
-    .replace(/(-\d*.*)/g,".m3u8");
+  copyToClipboard(url, name) {
+    let command = `youtube-dl -o "%${name}.%(ext)s" ${url}`;
     document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', (item));
+      e.clipboardData.setData('text/plain', (command));
       e.preventDefault();
       document.removeEventListener('copy', null);
     });
