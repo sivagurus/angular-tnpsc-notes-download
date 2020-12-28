@@ -146,7 +146,7 @@ export class CourseComponent implements OnInit {
             }
             this.addSubContents(li, courseId, item.id);
           } else if( type == "video"){
-            this.copyToClipboard(item.thumbnailUrl);
+            this.copyToClipboard((item.url)? item.url : item.thumbnailUrl);
           }
         });
         this.renderer.appendChild(ul, li);
