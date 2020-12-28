@@ -152,7 +152,7 @@ export class CourseComponent implements OnInit {
         this.renderer.appendChild(ul, li);
       });
       this.renderer.appendChild(element, ul);
-      this.cdRef.detectChanges()
+      this.cdRef.detectChanges();
     });
   }
 
