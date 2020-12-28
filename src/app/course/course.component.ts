@@ -4,7 +4,6 @@ import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import * as _ from "lodash";
 import { HttpClient } from '@angular/common/http';
-import * as storeQuery from './storeQuery.json';
 import { MatSnackBar } from '@angular/material/snack-bar';
 declare var $: any;
 
@@ -38,8 +37,7 @@ export class CourseComponent implements OnInit {
   }
 
   getStore(){
-    let query = storeQuery;
-    this.apiService.getStore(query).pipe(
+    this.apiService.getStore().pipe(
       catchError((error) => {
         return throwError(error)
       })
