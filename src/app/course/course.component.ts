@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
@@ -10,7 +10,8 @@ declare var $: any;
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CourseComponent implements OnInit {
 
@@ -102,6 +103,7 @@ export class CourseComponent implements OnInit {
         a.title = item.name;
         a.href = item.url;
         a.target = "_blank";
+        this.renderer.addClass(a,"pdfLink");
         this.renderer.appendChild(li, a);
       } else{
         this.renderer.appendChild(li, liText);
@@ -156,6 +158,7 @@ export class CourseComponent implements OnInit {
           a.title = item.name;
           a.href = item.url;
           a.target = "_blank";
+          this.renderer.addClass(a,"pdfLink");
           this.renderer.appendChild(li, a);
         } else{
           this.renderer.appendChild(li, liText);

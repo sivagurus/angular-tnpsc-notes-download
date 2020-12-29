@@ -73,6 +73,6 @@
   padding: 10px;
 }
 
-.courseList li[data-contenttype="pdf"] a{
-  color: white !important;
+.courseList a.pdfLink{
+  color: white;
 }
