@@ -14,7 +14,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { RouterModule, Routes } from '@angular/router';
-import { VideoComponent } from './video/video.component';
 import { CourseComponent } from './course/course.component';
 import { ApiService } from './course/api.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,12 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "video",
+    redirectTo: "course",
     pathMatch: "full"
-  },
-  { 
-    path: 'video', 
-    component: VideoComponent,
   },
   { 
     path: 'course', 
@@ -52,7 +47,6 @@ const routes: Routes = [
   ],
   declarations: [ 
     AppComponent,
-    VideoComponent,
     CourseComponent
   ],
   bootstrap:    [ AppComponent ],
