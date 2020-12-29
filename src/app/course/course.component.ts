@@ -83,6 +83,8 @@ export class CourseComponent implements OnInit {
           this.renderer.setAttribute(li, 'data-folderId', item.id);
         } else if(item.contentType == 2){
           type = "video";
+        } else if(item.contentType == 3){
+          type = "pdf";
         } else if(item.contentType == 4){
           type = "test";
           this.renderer.setAttribute(li, 'data-testId', item.testId);
@@ -92,7 +94,18 @@ export class CourseComponent implements OnInit {
       this.renderer.setAttribute(li, 'data-contentType', type);
       this.renderer.setAttribute(li, 'data-courseId', id);
       this.renderer.addClass(li,"closed");
-      this.renderer.appendChild(li, document.createTextNode(item.name));
+      let liText = document.createTextNode(item.name);
+      if( type == "pdf" ){
+        let a = document.createElement('a');
+        let linkText = document.createTextNode(item.name);
+        a.appendChild(linkText);
+        a.title = item.name;
+        a.href = item.url;
+        a.target = "_blank";
+        this.renderer.appendChild(li, a);
+      } else{
+        this.renderer.appendChild(li, liText);
+      }
       this.renderer.listen(li, "click", (event) => {
         event.stopImmediatePropagation();
         this.renderer.removeClass(li, "closed");
@@ -122,21 +135,34 @@ export class CourseComponent implements OnInit {
       data.forEach((item) => {
         let li = this.renderer.createElement('li');
         let type = '';
-       if(item.contentType == 1){
+        let liText = document.createTextNode(item.name);
+        if(item.contentType == 1){
           type = "folder";
-           this.renderer.setAttribute(li, 'data-folderId', item.id);
+          this.renderer.setAttribute(li, 'data-folderId', item.id);
         } else if(item.contentType == 2){
           type = "video";
+        } else if(item.contentType == 3){
+          type = "pdf";
         } else if(item.contentType == 4){
           type = "test";
           this.renderer.setAttribute(li, 'data-testId', item.testId);
         } else{
           type = "others"
         }
+        if( type == "pdf" ){
+          let a = document.createElement('a');
+          let linkText = document.createTextNode(item.name);
+          a.appendChild(linkText);
+          a.title = item.name;
+          a.href = item.url;
+          a.target = "_blank";
+          this.renderer.appendChild(li, a);
+        } else{
+          this.renderer.appendChild(li, liText);
+        }
         this.renderer.setAttribute(li, 'data-contentType', type);
         this.renderer.setAttribute(li, 'data-courseId', courseId);
         this.renderer.addClass(li,"closed");
-        this.renderer.appendChild(li, document.createTextNode(item.name));
         this.renderer.listen(li, "click", (event) => {
           event.stopImmediatePropagation();
           this.renderer.removeClass(li, "closed");
