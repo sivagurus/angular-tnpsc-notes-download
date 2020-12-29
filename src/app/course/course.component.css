@@ -59,3 +59,9 @@
   color: white;
   padding: 10px;
 }
+
+.courseList li[data-contenttype="test"]{
+  background: #0078cf;
+  color: white;
+  padding: 10px;
+}

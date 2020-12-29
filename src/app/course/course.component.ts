@@ -80,17 +80,21 @@ export class CourseComponent implements OnInit {
       let type = '';
         if(item.contentType == 1){
           type = "folder";
+          this.renderer.setAttribute(li, 'data-folderId', item.id);
         } else if(item.contentType == 2){
           type = "video";
+        } else if(item.contentType == 4){
+          type = "test";
+          this.renderer.setAttribute(li, 'data-testId', item.testId);
         } else{
           type = "others"
         }
       this.renderer.setAttribute(li, 'data-contentType', type);
       this.renderer.setAttribute(li, 'data-courseId', id);
-      this.renderer.setAttribute(li, 'data-folderId', item.id);
       this.renderer.addClass(li,"closed");
       this.renderer.appendChild(li, document.createTextNode(item.name));
       this.renderer.listen(li, "click", (event) => {
+        event.stopImmediatePropagation();
         this.renderer.removeClass(li, "closed");
         this.renderer.addClass(li, "opened");
         let newLi = this.elementRef.nativeElement.querySelector(`li[data-courseId="${id}"][data-folderId="${item.id}"]`);
@@ -118,18 +122,19 @@ export class CourseComponent implements OnInit {
       data.forEach((item) => {
         let li = this.renderer.createElement('li');
         let type = '';
-        if(item.contentType == 1){
+       if(item.contentType == 1){
           type = "folder";
+           this.renderer.setAttribute(li, 'data-folderId', item.id);
         } else if(item.contentType == 2){
           type = "video";
+        } else if(item.contentType == 4){
+          type = "test";
+          this.renderer.setAttribute(li, 'data-testId', item.testId);
         } else{
           type = "others"
         }
         this.renderer.setAttribute(li, 'data-contentType', type);
         this.renderer.setAttribute(li, 'data-courseId', courseId);
-        if( type == "folder" ){
-          this.renderer.setAttribute(li, 'data-folderId', item.id);
-        }
         this.renderer.addClass(li,"closed");
         this.renderer.appendChild(li, document.createTextNode(item.name));
         this.renderer.listen(li, "click", (event) => {
