@@ -182,23 +182,8 @@ export class CourseComponent implements OnInit {
             }
             this.addSubContents(li, courseId, item.id);
           } else if( type == "video"){
-            let path = [];
-            let find = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-id="${item.id}"]`);
-            let parent = 'false';
-            while(parent != 'true'){
-              let dataParent = find.getAttribute('data-parent');
-              parent = (dataParent)? dataParent: 'false';
-              find = find.parentElement;
-              if( find.nodeName == 'LI' ){
-                 let name = find.getAttribute('data-name');
-                 if(name){
-                   path.push(name);
-                 }
-              }
-            }
-            path.reverse();
-            path.push(item.name);
-            this.copyToClipboard(item.url, './'+path.join("/"));
+            let path = this.getPath(courseId, item);
+            this.copyToClipboard(item.url, path);
           }
         });
         this.renderer.appendChild(ul, li);
@@ -206,6 +191,26 @@ export class CourseComponent implements OnInit {
       this.renderer.appendChild(element, ul);
       this.cdRef.detectChanges();
     });
+  }
+
+  getPath(courseId, item){
+    let path = [];
+    let find = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-id="${item.id}"]`);
+    let parent = 'false';
+    while(parent != 'true'){
+      let dataParent = find.getAttribute('data-parent');
+      parent = (dataParent)? dataParent: 'false';
+      find = find.parentElement;
+      if( find.nodeName == 'LI' ){
+          let name = find.getAttribute('data-name');
+          if(name){
+            path.push(name);
+          }
+      }
+    }
+    path.reverse();
+    path.push(item.name);
+    return './'+path.join("/");
   }
 
   copyToClipboard(url, name) {
