@@ -209,7 +209,8 @@ export class CourseComponent implements OnInit {
   }
 
   copyToClipboard(url, name) {
-    let command = `youtube-dl -o "${name}.%(ext)s" ${url} >/dev/null 2>&1`;
+    let command = `youtube-dl -o "${name}.%(ext)s" ${url} >/dev/null 2>&1
+    `;
     document.addEventListener('copy', (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', (command));
       e.preventDefault();
