@@ -134,6 +134,7 @@ export class CourseComponent implements OnInit {
     ).subscribe((res: any) => {
       let data = res.data.courseContent;
       let element = li;
+      let parentElement = li;
       this.renderer.setAttribute(element, "data-loaded", "true");
       const ul = this.renderer.createElement('ul');
       data.forEach((item) => {
@@ -187,6 +188,10 @@ export class CourseComponent implements OnInit {
           }
         });
         this.renderer.appendChild(ul, li);
+        if( type == "video" ){
+          let path = this.getPathName(courseId, item, parentElement);
+          this.renderer.setAttribute(li, 'data-youtube_dl', `youtube-dl -o ${path}.%(ext)s" ${item.url} >/dev/null 2>&1`);
+        }
       });
       this.renderer.appendChild(element, ul);
       this.cdRef.detectChanges();
@@ -196,6 +201,26 @@ export class CourseComponent implements OnInit {
   getPath(courseId, item){
     let path = [];
     let find = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-id="${item.id}"]`);
+    let parent = 'false';
+    while(parent != 'true'){
+      let dataParent = find.getAttribute('data-parent');
+      parent = (dataParent)? dataParent: 'false';
+      find = find.parentElement;
+      if( find.nodeName == 'LI' ){
+          let name = find.getAttribute('data-name');
+          if(name){
+            path.push(name);
+          }
+      }
+    }
+    path.reverse();
+    path.push(item.name);
+    return './'+path.join("/");
+  }
+
+  getPathName(courseId, item, element){
+    let path = [];
+    let find = element;
     let parent = 'false';
     while(parent != 'true'){
       let dataParent = find.getAttribute('data-parent');
