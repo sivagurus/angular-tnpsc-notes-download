@@ -187,8 +187,8 @@ export class CourseComponent implements OnInit {
               let temp = find.parentElement;
               if( find.nodeName == 'LI' ){
                 find = temp;
-                parent = (find.getAttribute('data-parent'))? find.getAttribute('data-parent'): 'false';
               }
+              parent = (find.getAttribute('data-parent'))? find.getAttribute('data-parent'): 'false';
             }
             this.copyToClipboard(item.url, item.name);
           }
