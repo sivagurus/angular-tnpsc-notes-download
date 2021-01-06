@@ -166,6 +166,11 @@ export class CourseComponent implements OnInit {
         } else{
           this.renderer.appendChild(li, liText);
         }
+        if( type == "folder" ){
+          let button = document.createElement("button");
+          button.innerHTML = "Copy Videos";
+          this.renderer.appendChild(li, button);
+        }
         this.renderer.setAttribute(li, 'data-contentType', type);
         this.renderer.setAttribute(li, 'data-courseId', courseId);
         this.renderer.setAttribute(li, 'data-id', item.id);
