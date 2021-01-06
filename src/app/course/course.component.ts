@@ -183,12 +183,11 @@ export class CourseComponent implements OnInit {
             let find = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-id="${item.id}"]`);
             let parent = 'false';
             while(parent != 'true'){
-              console.log(find.closest('li'));
-              let temp = find.parentElement;
-              if( find.nodeName == 'LI' ){
-                find = temp;
-              }
               parent = (find.getAttribute('data-parent'))? find.getAttribute('data-parent'): 'false';
+              find = find.parentElement;
+              if( find.nodeName == 'LI' ){
+                 console.log(find.innerText);
+              }
             }
             this.copyToClipboard(item.url, item.name);
           }
