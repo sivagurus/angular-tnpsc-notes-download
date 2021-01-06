@@ -95,6 +95,7 @@ export class CourseComponent implements OnInit {
       this.renderer.setAttribute(li, 'data-contentType', type);
       this.renderer.setAttribute(li, 'data-courseId', id);
       this.renderer.setAttribute(li, 'data-id', item.id);
+      this.renderer.setAttribute(li, 'data-name', item.name);
       this.renderer.addClass(li,"closed");
       let liText = document.createTextNode(item.name);
       if( type == "pdf" ){
@@ -167,6 +168,7 @@ export class CourseComponent implements OnInit {
         this.renderer.setAttribute(li, 'data-contentType', type);
         this.renderer.setAttribute(li, 'data-courseId', courseId);
         this.renderer.setAttribute(li, 'data-id', item.id);
+        this.renderer.setAttribute(li, 'data-name', item.name);
         this.renderer.addClass(li,"closed");
         this.renderer.listen(li, "click", (event) => {
           event.stopImmediatePropagation();
@@ -180,16 +182,23 @@ export class CourseComponent implements OnInit {
             }
             this.addSubContents(li, courseId, item.id);
           } else if( type == "video"){
+            let path = [];
             let find = this.elementRef.nativeElement.querySelector(`li[data-courseId="${courseId}"][data-id="${item.id}"]`);
             let parent = 'false';
             while(parent != 'true'){
-              parent = (find.getAttribute('data-parent'))? find.getAttribute('data-parent'): 'false';
+              let dataParent = find.getAttribute('data-parent');
+              parent = (dataParent)? dataParent: 'false';
               find = find.parentElement;
               if( find.nodeName == 'LI' ){
-                 console.log(find.innerText);
+                 let name = find.getAttribute('data-name');
+                 if(name){
+                   path.push(name);
+                 }
               }
             }
-            this.copyToClipboard(item.url, item.name);
+            path.reverse();
+            path.push(item.name);
+            this.copyToClipboard(item.url, './'+path.join("/"));
           }
         });
         this.renderer.appendChild(ul, li);
@@ -200,7 +209,7 @@ export class CourseComponent implements OnInit {
   }
 
   copyToClipboard(url, name) {
-    let command = `youtube-dl -o "%${name}.%(ext)s" ${url} >/dev/null 2>&1`;
+    let command = `youtube-dl -o "${name}.%(ext)s" ${url} >/dev/null 2>&1`;
     document.addEventListener('copy', (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', (command));
       e.preventDefault();
