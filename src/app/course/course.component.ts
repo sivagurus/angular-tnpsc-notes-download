@@ -119,7 +119,7 @@ export class CourseComponent implements OnInit {
           let string = "";
           for (var i in videosElem) {
             if (videosElem.hasOwnProperty(i)) {
-              let videoUrl = videosElem[i].getAttribute('data-youtube_dl') + "\n";
+              let videoUrl = '`'+videosElem[i].getAttribute('data-youtube_dl')+'`'+ "\n";
               string = string + videoUrl;
             }
           }
