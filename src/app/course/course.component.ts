@@ -251,6 +251,7 @@ export class CourseComponent implements OnInit {
       }
     }
     path.reverse();
+    path.push(element.getAttribute('data-name'));
     path.push(item.name);
     return './'+path.join("/");
   }
