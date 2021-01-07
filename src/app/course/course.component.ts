@@ -172,11 +172,14 @@ export class CourseComponent implements OnInit {
           button.innerHTML = "Copy Videos";
           this.renderer.listen(button, "click", (event) => {
             let videosElem = this.elementRef.nativeElement.querySelectorAll(`[data-folderId='${item.id}'] [data-contentType='video']`);
+            let string = "";
             for (var i in videosElem) {
               if (videosElem.hasOwnProperty(i)) {
-                console.log(videosElem[i].getAttribute('data-youtube_dl'));
+                let videoUrl = videosElem[i].getAttribute('data-youtube_dl') + "\n";
+                string = string + videoUrl;
               }
             }
+            this.copy(string);
           });
           this.renderer.appendChild(li, button);
         }
@@ -204,7 +207,7 @@ export class CourseComponent implements OnInit {
         this.renderer.appendChild(ul, li);
         if( type == "video" ){
           let path = this.getPathName(courseId, item, parentElement);
-          this.renderer.setAttribute(li, 'data-youtube_dl', `youtube-dl -o ${path}.%(ext)s" ${item.url} >/dev/null 2>&1`);
+          this.renderer.setAttribute(li, 'data-youtube_dl', `youtube-dl -o "${path}.%(ext)s" ${item.url} >/dev/null 2>&1`);
         }
       });
       this.renderer.appendChild(element, ul);
@@ -257,6 +260,19 @@ export class CourseComponent implements OnInit {
     `;
     document.addEventListener('copy', (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', (command));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this._snackBar.open("Link Copied", '', {
+      duration: 200,
+      verticalPosition: "top"
+    });
+  }
+
+  copy(content) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (content));
       e.preventDefault();
       document.removeEventListener('copy', null);
     });
