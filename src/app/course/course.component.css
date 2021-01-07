@@ -76,3 +76,12 @@
 .courseList a.pdfLink{
   color: white;
 }
+
+.copyFolderBtn{
+  margin-left: 10px;
+  background: #3ab7a0;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}

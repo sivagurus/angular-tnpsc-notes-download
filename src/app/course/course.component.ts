@@ -168,7 +168,16 @@ export class CourseComponent implements OnInit {
         }
         if( type == "folder" ){
           let button = document.createElement("button");
+          this.renderer.addClass(button,"copyFolderBtn");
           button.innerHTML = "Copy Videos";
+          this.renderer.listen(button, "click", (event) => {
+            let videosElem = this.elementRef.nativeElement.querySelectorAll(`[data-folderId='${item.id}'] [data-contentType='video']`);
+            for (var i in videosElem) {
+              if (videosElem.hasOwnProperty(i)) {
+                console.log(videosElem[i].getAttribute('data-youtube_dl'));
+              }
+            }
+          });
           this.renderer.appendChild(li, button);
         }
         this.renderer.setAttribute(li, 'data-contentType', type);
