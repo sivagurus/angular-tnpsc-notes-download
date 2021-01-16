@@ -188,6 +188,7 @@ export class CourseComponent implements OnInit {
           this.renderer.addClass(button,"copyFolderBtn");
           button.innerHTML = "Copy Videos";
           this.renderer.listen(button, "click", (event) => {
+            event.stopImmediatePropagation();
             let videosElem = this.elementRef.nativeElement.querySelectorAll(`[data-folderId='${item.id}'] [data-contentType='video']`);
             let string = "";
             for (var i in videosElem) {
