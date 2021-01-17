@@ -43,7 +43,7 @@ export class CourseComponent implements OnInit {
         return throwError(error)
       })
     ).subscribe((res: any) => {
-      this.courses = res.data.items;
+      this.courses = res.data.courses;
       this.cdRef.detectChanges()
     });
   }
