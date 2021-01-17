@@ -43,13 +43,14 @@ export class CourseComponent implements OnInit {
         return throwError(error)
       })
     ).subscribe((res: any) => {
+      console.log(res.data.courses);
       this.courses = res.data.courses;
       this.cdRef.detectChanges()
     });
   }
 
   onCourseClick(course: any){
-    let id = course.deeplink.paramOne;
+    let id = course.id;
     let element = this.courseList.nativeElement.querySelector(`[data-id="${id}"]`);
     this.renderer.removeClass(element, "closed");
     this.renderer.addClass(element, "opened");
