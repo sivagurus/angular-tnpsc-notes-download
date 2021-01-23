@@ -1,0 +1,16 @@
+{
+  "name": "Angular app",
+  "description": "Angular app",
+  "keywords": ["node", "express", "static"],
+  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/main/public/node.svg",
+  "env": {
+    "TOKEN": {
+      "description": "Login token",
+      "value": "token",
+      "required": true
+    },
+    "NODE_MODULES_CACHE": {
+      "value": "false"
+    }
+  }
+}

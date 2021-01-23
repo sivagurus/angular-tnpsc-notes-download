@@ -1,7 +1,11 @@
 {
   "name": "angular",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "12.0.0",
+    "npm": "6.9.0"
+  },
   "dependencies": {
     "@angular/animations": "^8.0.0 || ^9.0.0-0",
     "@angular/cdk": "8.2.3",
@@ -19,12 +23,17 @@
     "lodash": "^4.17.20",
     "rxjs": "^6.5.2",
     "tslib": "^1.10.0",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.9.1",
+    "express": "^4.17.1",
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "lodash": "^4.17.20"
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node server.js",
+    "deploy": "git add . && git commit -m 'update my app' && git push heroku master -f",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
